@@ -103,3 +103,7 @@ sgweb[.vn/huong-dan-tao-bai-viet-len-quan-tren-theme-flatsome/
 	border: 0;
 }
 
+// SỬA ARCHIVE
+template-parts/posts/layout.php
+template-parts/posts/archive-3-col.php
+plugins/woocommerce/includes/wc-template-functions.php - Các function tùy biến Sản phẩm
