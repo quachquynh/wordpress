@@ -1,5 +1,3 @@
-# wordpress
-
 .box-image img { -webkit-transition-duration: 0.5s; -moz-transition-duration: 0.5s; -o-transition-duration: 0.5s; } .box-image img:hover { -webkit-transform:scale(1.1); -moz-transform:scale(1.1); -o-transform:scale(1.1); }
 
 .header-main li {
@@ -79,7 +77,7 @@
 sgweb[.vn/huong-dan-tao-bai-viet-len-quan-tren-theme-flatsome/
 
 ## Contact Form 7
-<h2>Gửi thông tin cho chúng tôi</h2>
+Gửi thông tin cho chúng tôi</h2>
 [text* your-name id:your-name class:your-name placeholder "Tên của bạn (*)"]
 
 [email* your-email id:your-email class:your-email placeholder "Nhập địa chỉ Email (*)"]
