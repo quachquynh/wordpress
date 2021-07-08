@@ -76,7 +76,7 @@
 
 
 ## Bài viết liên quan
-https://sgweb.vn/huong-dan-tao-bai-viet-len-quan-tren-theme-flatsome/
+sgweb[.vn/huong-dan-tao-bai-viet-len-quan-tren-theme-flatsome/
 
 ## Contact Form 7
 <h2>Gửi thông tin cho chúng tôi</h2>
