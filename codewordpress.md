@@ -112,3 +112,8 @@ function mycustom_wpcf7_form_elements( $form ) {
 <!-- #Carousel Navigation -->
 </div> <!-- /row -->
 </div> <!-- /container -->
+
+// SONGMATHEME
+<footer class="entry-footer">
+	<?php hrm_entry_footer(); ?>
+</footer><!-- .entry-footer -->
