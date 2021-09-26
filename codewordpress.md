@@ -117,3 +117,29 @@ function mycustom_wpcf7_form_elements( $form ) {
 <footer class="entry-footer">
 	<?php hrm_entry_footer(); ?>
 </footer><!-- .entry-footer -->
+
+/*********************************
+*         CAROUSEL SLIDER *******
+*         ***********************/
+// Thay đổi ảnh khi click chuột
+jQuery('.carousel-item').each(function(){
+  var next = jQuery(this).next();
+  if (!next.length) {
+    next = jQuery(this).siblings(':first');
+  }
+  next.children(':first-child').clone().appendTo(jQuery(this));
+  
+  if (next.next().length>0) {
+    next.next().children(':first-child').clone().appendTo(jQuery(this));
+  } else {
+  jQuery(this).siblings(':first').children(':first-child').clone().appendTo(jQuery(this));
+  }
+});
+// Click chuyển ảnh gallery
+jQuery(function(){
+    jQuery('.gallery-slides .item img').click(function(){
+        var thumbImage = jQuery(this).attr('src');
+		var oldSrc =  jQuery('img#toggleImage').attr("src");
+        jQuery('img#toggleImage').attr('src', thumbImage);
+    });
+});
