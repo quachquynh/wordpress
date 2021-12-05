@@ -128,3 +128,5 @@ $products = new WP_Query( array(
        'terms' => $businessunit
      )
   )
+
+https://generatewp.com/retrieving-results-filtered-wp_tax_query/
