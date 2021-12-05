@@ -88,3 +88,43 @@ $args = array(
 );
 $products = new WP_Query($args);
 var_dump($products);
+
+// WQ_QUERY THEO SEARCH
+	$args = array(
+	    /*everything but tax_query defined here*/
+	    'tax_query' => array(
+		'relation' => 'AND',
+		array(
+		    'taxonomy' => 'test',
+		    'field'    => 'slug',
+		    'terms'    => array( 'testa' ),
+		),
+		array(
+		    'taxonomy' => 'coffee',
+		    'field'    => 'slug',
+		    'terms'    => array( 'coffeec' ),
+		),
+	    ),
+	);
+	
+$producttype = $_GET['ProductType'];
+$businessunit = $_GET['BusinessUnit'];
+$products = new WP_Query( array( 
+  'post_type' => 'products',
+  'posts_per_page' => 15,
+  'orderby' => 'title',
+  'order'   => 'ASC',
+  'paged' => $paged,
+  'tax_query' => array(
+    'relation' => 'OR',
+     array(
+       'taxonomy' => 'producttype',
+       'field' => 'name',
+       'terms' => $producttype
+     ),
+     array(
+       'taxonomy' => 'businessunit',
+       'field' => 'name',
+       'terms' => $businessunit
+     )
+  )
