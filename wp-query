@@ -1,0 +1,21 @@
+// PHÂN TRANG
+$paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
+$args = array(
+	//'category__in' => array(110,111),
+	'post_type' => 'post',
+  'posts_per_page' => 4,
+  'cat' => 110,
+	'paged' => $paged,
+	'post_status' => 'publish', 
+	'order'=>'DESC',
+  'orderby'=>'ID',
+);
+$wp_query = new WP_Query( $args );
+
+if ( $wp_query->have_posts() ) :
+while ( $wp_query->have_posts() ) : $wp_query->the_post(); 
+the_title();
+endwhile; 
+endif;
+
+// 
