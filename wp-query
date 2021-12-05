@@ -130,3 +130,24 @@ $products = new WP_Query( array(
   )
 
 https://generatewp.com/retrieving-results-filtered-wp_tax_query/
+
+
+/*********************************
+*   WIDGET CUSTOM WORDPRESS      *
+*********************************/
+class Widget_Name extends WP_Widget {
+function __construct() {
+// Some code here
+}
+public function widget( $args, $instance ) {
+// Some code here
+}
+public function form( $instance ) {
+// Some code here
+}
+public function update( $new_instance, $old_instance ) {
+// Some code here
+}
+}function name_of_the_register_function() {
+register_widget( 'Widget_Name' );
+}add_action( 'widgets_init', 'name_of_the_register_function' );
