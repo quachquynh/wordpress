@@ -155,3 +155,157 @@ public function update( $new_instance, $old_instance ) {
 }function name_of_the_register_function() {
 register_widget( 'Widget_Name' );
 }add_action( 'widgets_init', 'name_of_the_register_function' );
+
+
+
+/*********************************
+*   WIDGET RECENT POSTS      *
+*********************************/
+https://wordpress.stackexchange.com/questions/99792/custom-widget-using-get-categories-select-menu-dropdown
+<?php
+class Custom_Widget extends WP_Widget {
+
+	public function __construct() {
+	    parent::__construct(
+        // Base ID of your widget
+            'cw_widget',
+        // Widget name will appear in UI
+            __('Custom Widget', 'cw_widget_domain'),
+        // Widget description
+            array(
+            'description' => __('Sample widget based on Testing Widgets',
+                                     'cw_widget_domain')
+        ));
+	}
+
+	public function widget($args, $instance) {
+
+		$title = apply_filters('widget_title', $instance['title']);
+		$post_numbers = apply_filters('widget_title', $instance['post_numbers']);
+		$cat_id = apply_filters('widget_title', $instance['cat_id']);
+
+		echo $args['before_widget'];
+        if (!empty($title))
+            echo $args['before_title'] . $title . $args['after_title'];
+        //echo __($title, 'cw_widget_domain');
+        echo $args['after_widget'];
+
+		$args = array(
+		'post_type' => 'post',
+		'posts_per_page' => $post_numbers,
+		'cat' => $cat_id,
+		'order' => 'desc',
+		'orderby' => 'ID', // Sắp xếp bài viết theo thứ tự ID
+		);
+		$query_posts = new WP_Query( $args );
+		echo '<div class="list-post">';
+		if( $query_posts->have_posts() ):
+		while( $query_posts->have_posts() ) : $query_posts->the_post();
+			
+			echo '<div class="post-item">'.get_the_title().'<div>';
+
+		endwhile;
+		endif;
+		echo '</div>';
+		wp_reset_query();
+	}
+
+    // Widget Backend
+    public function form($instance)
+    {
+    	$taxonomies=get_taxonomies(); 
+    	$terms = get_terms($taxonomies);
+    	$defaults = array(
+		        'title' => 'Chọn chuyên mục'
+		    );
+    	$instance = wp_parse_args( (array) $instance, $defaults ); 
+    	
+        if (isset($instance['title']) || isset($instance['post_numbers']) || isset($instance['cat_id']) ) {
+            $title = $instance['title'];
+            $post_numbers = $instance['post_numbers'];
+            $cat_id = $instance['cat_id'];
+        } else {
+            $title = __('', 'cw_widget_domain');
+        }
+      // Widget admin form
+		?>
+			<table>
+				<tr>
+					<td>
+						<label for="<?php
+						        echo $this->get_field_id('title');
+						?>"><?php
+						        _e('Tiêu đề:');
+						?>
+					</td>
+					<td>
+						<input class="widefat" id="<?php
+						        echo $this->get_field_id('title');
+						?>" name="<?php
+						        echo $this->get_field_name('title');
+						?>" type="text" value="<?php
+						        echo esc_attr($title);
+						?>" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="<?php
+						        echo $this->get_field_id('post_numbers');
+						?>"><?php
+						        _e('Số bài viết:');
+						?>
+					</td>
+					<td>
+						<input class="post_numbers" id="<?php
+						        echo $this->get_field_id('post_numbers');
+						?>" name="<?php
+						        echo $this->get_field_name('post_numbers');
+						?>" type="text" value="<?php
+						        echo esc_attr($post_numbers);
+						?>" />
+						
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="<?php
+						        echo $this->get_field_id('cat_id');
+						?>"><?php
+						        _e('Chuyên mục:');
+						?>
+					</td>
+					<td>
+					    <!-- Category Select Menu -->   
+					        <select id="<?php echo $this->get_field_id('cat_id'); ?>" name="<?php echo $this->get_field_name('cat_id'); ?>" class="widefat" style="width:100%;">
+					            <?php foreach(get_terms('category','parent=0&hide_empty=0') as $term) { ?>
+					            <option <?php selected( $instance['cat_id'], $term->term_id ); ?> value="<?php echo $term->term_id; ?>"><?php echo $term->name; ?></option>
+					            <?php } ?>      
+					        </select>
+						
+					</td>
+				</tr>
+			</table>
+		<?php
+	}
+
+	// Updating widget replacing old instances with new
+	public function update($new_instance, $old_instance)
+	{
+	        $instance          = array();
+	        $instance['title'] = (!empty($new_instance['title'])) 
+	                              ? strip_tags($new_instance['title']) : '';
+	        $instance['post_numbers'] = (!empty($new_instance['post_numbers'])) 
+	                              ? strip_tags($new_instance['post_numbers']) : '';
+	        $instance['cat_id'] = (!empty($new_instance['cat_id'])) 
+	                              ? strip_tags($new_instance['cat_id']) : '';
+	        return $instance;
+	}
+}
+
+function cw_load_widget()
+{
+     register_widget('Custom_Widget');
+}
+add_action('widgets_init', 'cw_load_widget');
+?>
