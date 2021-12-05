@@ -48,3 +48,17 @@
 	  )
 	);
 	$query = new WP_Query( $args );
+
+// LẤY BÀI VIẾT THEO CATEGORY
+	$args=array(
+	'posts_per_page' => 50,    
+	'post_type' => 'my_custom_type'
+	'tax_query' => array(
+	    array(
+		'taxonomy' => 'category', //double check your taxonomy name in you dd 
+		'field'    => 'id',
+		'terms'    => $cat_id,
+	    ),
+	   ),
+	 );
+	$wp_query = new WP_Query( $args );
