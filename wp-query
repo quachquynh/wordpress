@@ -24,27 +24,27 @@
 *   GET POST CATEGORY      *
 ***************************/
 // Lấy bài viết theo category
-$related = get_posts( 
-	array( 
-		'category__in' => wp_get_post_categories($post->ID),
-		'numberposts' => 5, 
-		'post__not_in' => array($post->ID) )
-	);
-	if( $related ) foreach( $related as $post ) {
-		setup_postdata($post);
-	}
-    	wp_reset_postdata(); 
+	$related = get_posts( 
+		array( 
+			'category__in' => wp_get_post_categories($post->ID),
+			'numberposts' => 5, 
+			'post__not_in' => array($post->ID) )
+		);
+		if( $related ) foreach( $related as $post ) {
+			setup_postdata($post);
+		}
+		wp_reset_postdata(); 
 
 // Lấy bài viết theo taxonomy
 
-$args = array(
-'post_type' => 'recipe_cpt',
-'tax_query' => array(
-    array(
-    'taxonomy' => 'recipe_tx',
-    'field' => 'term_id',
-    'terms' => 37
-     )
-  )
-);
-$query = new WP_Query( $args );
+	$args = array(
+	'post_type' => 'recipe_cpt',
+	'tax_query' => array(
+	    array(
+	    'taxonomy' => 'recipe_tx',
+	    'field' => 'term_id',
+	    'terms' => 37
+	     )
+	  )
+	);
+	$query = new WP_Query( $args );
