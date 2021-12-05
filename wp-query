@@ -183,6 +183,8 @@ class Custom_Widget extends WP_Widget {
 		$title = apply_filters('widget_title', $instance['title']);
 		$post_numbers = apply_filters('widget_title', $instance['post_numbers']);
 		$cat_id = apply_filters('widget_title', $instance['cat_id']);
+		$width_thumb= apply_filters('widget_title', $instance['width_thumb']);
+		$height_thumb = apply_filters('widget_title', $instance['height_thumb']);
 
 		echo $args['before_widget'];
         if (!empty($title))
@@ -191,19 +193,20 @@ class Custom_Widget extends WP_Widget {
         echo $args['after_widget'];
 
 		$args = array(
-		'post_type' => 'post',
-		'posts_per_page' => $post_numbers,
-		'cat' => $cat_id,
-		'order' => 'desc',
-		'orderby' => 'ID', // Sắp xếp bài viết theo thứ tự ID
+			'post_type' => 'post',
+			'posts_per_page' => $post_numbers,
+			'cat' => $cat_id,
+			'order' => 'desc',
+			'orderby' => 'ID', // Sắp xếp bài viết theo thứ tự ID
 		);
 		$query_posts = new WP_Query( $args );
 		echo '<div class="list-post">';
 		if( $query_posts->have_posts() ):
 		while( $query_posts->have_posts() ) : $query_posts->the_post();
-			
-			echo '<div class="post-item">'.get_the_title().'<div>';
-
+			echo '<div class="post-item">';
+			echo '<img src=" '. get_the_post_thumbnail_url() .'" width="'. $width_thumb .'px" height="'. $height_thumb .'px">';
+			echo the_title();
+			echo '<div>';
 		endwhile;
 		endif;
 		echo '</div>';
@@ -220,10 +223,12 @@ class Custom_Widget extends WP_Widget {
 		    );
     	$instance = wp_parse_args( (array) $instance, $defaults ); 
     	
-        if (isset($instance['title']) || isset($instance['post_numbers']) || isset($instance['cat_id']) ) {
+        if (isset($instance['title']) || isset($instance['post_numbers']) || isset($instance['cat_id']) || isset($instance['width_thumb']) || isset($instance['height_thumb']) ) {
             $title = $instance['title'];
             $post_numbers = $instance['post_numbers'];
             $cat_id = $instance['cat_id'];
+            $width_thumb = $instance['width_thumb'];
+            $height_thumb = $instance['height_thumb'];
         } else {
             $title = __('', 'cw_widget_domain');
         }
@@ -270,6 +275,34 @@ class Custom_Widget extends WP_Widget {
 				<tr>
 					<td>
 						<label for="<?php
+						        echo $this->get_field_id('post_numbers');
+						?>"><?php
+						        _e('Kích thước ảnh:');
+						?>
+					</td>
+					<td>
+						<input class="width_thumb" id="<?php
+						        echo $this->get_field_id('width_thumb');
+						?>" name="<?php
+						        echo $this->get_field_name('width_thumb');
+						?>" type="text" value="<?php
+						        echo esc_attr($width_thumb);
+						?>" />
+						
+					
+						<input class="height_thumb" id="<?php
+						        echo $this->get_field_id('height_thumb');
+						?>" name="<?php
+						        echo $this->get_field_name('height_thumb');
+						?>" type="text" value="<?php
+						        echo esc_attr($height_thumb);
+						?>" />
+						
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="<?php
 						        echo $this->get_field_id('cat_id');
 						?>"><?php
 						        _e('Chuyên mục:');
@@ -299,6 +332,12 @@ class Custom_Widget extends WP_Widget {
 	                              ? strip_tags($new_instance['post_numbers']) : '';
 	        $instance['cat_id'] = (!empty($new_instance['cat_id'])) 
 	                              ? strip_tags($new_instance['cat_id']) : '';
+
+	        $instance['width_thumb'] = (!empty($new_instance['width_thumb'])) 
+	                              ? strip_tags($new_instance['width_thumb']) : '';
+
+	        $instance['height_thumb'] = (!empty($new_instance['height_thumb'])) 
+	                              ? strip_tags($new_instance['height_thumb']) : '';
 	        return $instance;
 	}
 }
