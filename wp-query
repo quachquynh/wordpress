@@ -31,3 +31,14 @@ $related = get_posts(
     	wp_reset_postdata(); 
 
 // Lấy bài viết theo taxonomy
+$args = array(
+'post_type' => 'recipe_cpt',
+'tax_query' => array(
+    array(
+    'taxonomy' => 'recipe_tx',
+    'field' => 'term_id',
+    'terms' => 37
+     )
+  )
+);
+$query = new WP_Query( $args );
