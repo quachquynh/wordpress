@@ -3,19 +3,31 @@ $paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
 $args = array(
 	//'category__in' => array(110,111),
 	'post_type' => 'post',
-  'posts_per_page' => 4,
-  'cat' => 110,
+	'posts_per_page' => 4,
+	'cat' => 110,
 	'paged' => $paged,
 	'post_status' => 'publish', 
 	'order'=>'DESC',
-  'orderby'=>'ID',
+	'orderby'=>'ID',
 );
 $wp_query = new WP_Query( $args );
 
 if ( $wp_query->have_posts() ) :
 while ( $wp_query->have_posts() ) : $wp_query->the_post(); 
-the_title();
+	the_title();
 endwhile; 
 endif;
 
-// 
+// Lấy bài viết theo category
+$related = get_posts( 
+	array( 
+		'category__in' => wp_get_post_categories($post->ID),
+		'numberposts' => 5, 
+		'post__not_in' => array($post->ID) )
+	);
+	if( $related ) foreach( $related as $post ) {
+		setup_postdata($post);
+	}
+    	wp_reset_postdata(); 
+
+// Lấy bài viết theo taxonomy
