@@ -137,6 +137,7 @@ https://generatewp.com/retrieving-results-filtered-wp_tax_query/
 *********************************/
 https://qodeinteractive.com/magazine/create-wordpress-custom-widget/
 https://psdtowp.net/resources/wordpress-widgets/how-to-make-custom-widget-wordpress.html
+https://projectsengine.com/how-to-create-a-wordpress-custom-widget/
 
 class Widget_Name extends WP_Widget {
 function __construct() {
